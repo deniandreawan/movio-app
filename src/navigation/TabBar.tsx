@@ -1,16 +1,14 @@
+import { StyleSheet, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useTheme, Icon, IconProps } from '@rneui/themed';
-import { StyleSheet } from 'react-native';
+import { useTheme } from 'styled-components/native';
+import { Feather } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
-import merge from 'lodash.merge';
 
 import { isAndroid, isIos } from '../constants/screen';
 import { DiscoverScreen } from '../screens/Discover';
 import { SearchScreen } from '../screens/Search';
 import { FavoritesScreen } from '../screens/Favorites';
 import { MoreScreen } from '../screens/More';
-
-import { tabBarHeaderOptions } from './Header';
 import { RootTabParamList } from '../types/navigation';
 
 function BottomBarBackground() {
@@ -21,49 +19,57 @@ function BottomBarBackground() {
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
-const androidTabBarStyle = isAndroid
-  ? {
-      tabBarStyle: {
-        paddingTop: 7,
-        height: 60
-      },
-      tabBarLabelStyle: {
-        paddingBottom: 5
-      }
-    }
-  : undefined;
-
-function TabBarIcon(props: { name: IconProps['name']; color: string }) {
-  return <Icon size={24} type="feather" {...props} />;
+function TabBarIcon(props: {
+  name: React.ComponentProps<typeof Feather>['name'];
+  color: string;
+}) {
+  return <Feather size={24} {...props} />;
 }
 
 export function BottomTabNavigator() {
-  const { theme } = useTheme();
-
-  const screenOptions = merge(
-    {
-      ...tabBarHeaderOptions(),
-      tabBarActiveTintColor: theme.colors.primary,
-      tabBarInactiveTintColor: theme.colors.disabled,
-      tabBarBackground: isIos ? BottomBarBackground : undefined,
-      tabBarStyle: isAndroid
-        ? {
-            backgroundColor: theme.colors.black,
-            borderTopColor: theme.colors.black,
-            position: 'absolute'
-          }
-        : { borderTopColor: 'transparent', position: 'absolute' },
-      tabBarLabelStyle: {
-        fontFamily: 'Poppins_600SemiBold'
-      }
-    },
-    androidTabBarStyle
-  );
+  const theme = useTheme();
 
   return (
     <BottomTab.Navigator
       initialRouteName="Discover"
-      screenOptions={screenOptions}
+      screenOptions={{
+        headerShown: true,
+        headerTintColor: theme.colors.light900,
+        tabBarActiveTintColor: theme.colors.primary500,
+        tabBarInactiveTintColor: theme.colors.light400,
+        headerTransparent: false,
+        headerBackground: () =>
+          isAndroid ? (
+            <View
+              style={{
+                backgroundColor: theme.colors.behind,
+                width: '100%',
+                height: '100%'
+              }}
+            />
+          ) : (
+            <BlurView
+              tint="dark"
+              intensity={100}
+              style={StyleSheet.absoluteFill}
+            />
+          ),
+        tabBarBackground: isIos ? BottomBarBackground : undefined,
+        tabBarStyle: isAndroid
+          ? {
+              backgroundColor: theme.colors.ahead,
+              borderTopColor: theme.colors.ahead,
+              position: 'absolute',
+              paddingTop: 7,
+              height: 60
+            }
+          : { borderTopColor: 'transparent', position: 'absolute' },
+        tabBarLabelStyle: {
+          fontFamily: 'Poppins_600SemiBold',
+          fontSize: theme.fontSizes.h4,
+          paddingBottom: isAndroid ? 5 : 0
+        }
+      }}
     >
       <BottomTab.Screen
         name="Discover"

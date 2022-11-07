@@ -1,38 +1,18 @@
-import * as React from 'react';
-import { Text as RNText, TextProps, makeStyles } from '@rneui/themed';
-
+import styled, { css, DefaultTheme } from 'styled-components/native';
 import { getFontFamily } from '../utils/fonts';
 
-interface Props {
-  children: React.ReactNode;
-  color?: string;
+interface TextProps {
+  color?: keyof DefaultTheme['colors'];
+  theme: DefaultTheme;
+  variant?: keyof DefaultTheme['fontSizes'];
   weight?: 'regular' | 'bold' | undefined;
-  h1?: TextProps['h1'];
-  h2?: TextProps['h2'];
-  h3?: TextProps['h3'];
-  h4?: TextProps['h4'];
-  style?: TextProps['style'];
 }
 
-export const Text = (props: Props) => {
-  const styles = useStyles(props);
-
-  return (
-    <RNText
-      h1={props.h1}
-      h2={props.h2}
-      h3={props.h3}
-      h4={props.h4}
-      style={[props.style, styles.text]}
-    >
-      {props.children}
-    </RNText>
-  );
-};
-
-const useStyles = makeStyles((theme, props: Props) => ({
-  text: {
-    color: props.color ? props.color : theme.colors.white,
-    fontFamily: getFontFamily(props.weight)
-  }
-}));
+export const Text = styled.Text(
+  ({ color = 'light800', theme, variant = 'text', weight }: TextProps) => css`
+    font-family: ${getFontFamily(weight || theme.fontWeights[variant])};
+    font-size: ${theme.fontSizes[variant]}px;
+    color: ${theme.colors[color]};
+    line-height: ${theme.fontLineHeights[variant]}px;
+  `
+);

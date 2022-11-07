@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useTheme } from '@rneui/themed';
+import { useTheme } from 'styled-components/native';
 
 import { RootStackParamList } from '../types/navigation';
 import { BottomTabNavigator } from './TabBar';
@@ -19,14 +19,15 @@ function RootNavigator() {
 }
 
 export function Navigation() {
-  const { theme } = useTheme();
+  const theme = useTheme();
+
   return (
     <NavigationContainer
       theme={{
         ...DefaultTheme,
         colors: {
           ...DefaultTheme.colors,
-          background: theme.colors.background
+          background: theme.colors.behind
         }
       }}
     >

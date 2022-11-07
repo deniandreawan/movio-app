@@ -1,18 +1,16 @@
-import { StyleSheet, View } from 'react-native';
+import styled from 'styled-components/native';
 import { Text } from '../components/Text';
 
 export function SearchScreen() {
   return (
-    <View style={styles.container}>
+    <Box>
       <Text>Search Screen</Text>
-    </View>
+    </Box>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-});
+const Box = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`;
