@@ -5,6 +5,7 @@ import { Feather } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
 
 import { isAndroid, isIos } from '../constants/screen';
+import { Box } from '../components/Box';
 import { DiscoverScreen } from '../screens/Discover';
 import { SearchScreen } from '../screens/Search';
 import { FavoritesScreen } from '../screens/Favorites';
@@ -38,22 +39,16 @@ export function BottomTabNavigator() {
         tabBarActiveTintColor: theme.colors.primary500,
         tabBarInactiveTintColor: theme.colors.light400,
         headerTransparent: false,
-        headerBackground: () =>
-          isAndroid ? (
-            <View
-              style={{
-                backgroundColor: theme.colors.behind,
-                width: '100%',
-                height: '100%'
-              }}
-            />
-          ) : (
-            <BlurView
-              tint="dark"
-              intensity={100}
-              style={StyleSheet.absoluteFill}
-            />
-          ),
+        headerTitleStyle: {
+          fontFamily: 'Poppins_600SemiBold'
+        },
+        headerBackground: () => (
+          <Box
+            backgroundColor={theme.colors.behind}
+            width="100%"
+            height="100%"
+          />
+        ),
         tabBarBackground: isIos ? BottomBarBackground : undefined,
         tabBarStyle: isAndroid
           ? {
@@ -92,9 +87,7 @@ export function BottomTabNavigator() {
         component={FavoritesScreen}
         options={() => ({
           title: 'Favorites',
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="bookmark" color={color} />
-          )
+          tabBarIcon: ({ color }) => <TabBarIcon name="heart" color={color} />
         })}
       />
       <BottomTab.Screen
