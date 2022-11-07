@@ -1,12 +1,8 @@
 import { DefaultTheme } from 'styled-components/native';
 
-const primary100 = '#ffece8';
-const primary500 = '#e5bbb2';
-
 const colors = {
-  primary100,
-  primary300: '#ffd0c6',
-  primary500,
+  primary300: '#d3daed',
+  primary500: '#5772b9',
   dark400: '#383D49',
   dark600: '#22252C',
   dark700: '#17191E',

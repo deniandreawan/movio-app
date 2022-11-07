@@ -3,7 +3,6 @@ import 'styled-components/native';
 declare module 'styled-components/native' {
   export interface DefaultTheme {
     colors: {
-      primary100: string;
       primary300: string;
       primary500: string;
       dark400: string;
