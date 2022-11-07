@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { ThemeProvider } from '@rneui/themed';
+import { ThemeProvider } from 'styled-components/native';
 import {
   Poppins_400Regular,
   Poppins_600SemiBold,
@@ -10,7 +10,7 @@ import {
 } from '@expo-google-fonts/poppins';
 
 import { Navigation } from './src/navigation';
-import { theme } from './src/themes/core';
+import { coreTheme } from './src/themes/core';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -31,7 +31,7 @@ export default function App() {
   }
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={coreTheme}>
       <StatusBar
         barStyle="light-content"
         animated
