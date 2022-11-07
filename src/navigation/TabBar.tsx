@@ -1,4 +1,5 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { useIntl } from 'react-intl';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useTheme } from 'styled-components/native';
 import { Feather } from '@expo/vector-icons';
@@ -29,6 +30,7 @@ function TabBarIcon(props: {
 
 export function BottomTabNavigator() {
   const theme = useTheme();
+  const intl = useIntl();
 
   return (
     <BottomTab.Navigator
@@ -70,7 +72,7 @@ export function BottomTabNavigator() {
         name="Discover"
         component={DiscoverScreen}
         options={() => ({
-          title: 'Discover',
+          title: intl.formatMessage({ id: 'tabs.discover' }),
           tabBarIcon: ({ color }) => <TabBarIcon name="film" color={color} />
         })}
       />
@@ -78,7 +80,7 @@ export function BottomTabNavigator() {
         name="Search"
         component={SearchScreen}
         options={() => ({
-          title: 'Search',
+          title: intl.formatMessage({ id: 'tabs.search' }),
           tabBarIcon: ({ color }) => <TabBarIcon name="search" color={color} />
         })}
       />
@@ -86,7 +88,7 @@ export function BottomTabNavigator() {
         name="Favorites"
         component={FavoritesScreen}
         options={() => ({
-          title: 'Favorites',
+          title: intl.formatMessage({ id: 'tabs.favorites' }),
           tabBarIcon: ({ color }) => <TabBarIcon name="heart" color={color} />
         })}
       />
@@ -94,7 +96,7 @@ export function BottomTabNavigator() {
         name="More"
         component={MoreScreen}
         options={() => ({
-          title: 'More',
+          title: intl.formatMessage({ id: 'tabs.more' }),
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="more-horizontal" color={color} />
           )

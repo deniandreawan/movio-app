@@ -1,3 +1,7 @@
+import 'intl';
+import 'intl/locale-data/jsonp/en';
+import 'intl/locale-data/jsonp/id';
+
 import * as React from 'react';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'react-native';
@@ -11,6 +15,8 @@ import {
 
 import { Navigation } from './src/navigation';
 import { coreTheme } from './src/themes/core';
+import { LocaleProvider } from './src/context/locales';
+import { IntlMessages } from './src/locales';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -38,10 +44,14 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
-      <SafeAreaProvider onLayout={onLayoutRootView}>
-        <Navigation />
-        <StatusBar />
-      </SafeAreaProvider>
+      <LocaleProvider>
+        <IntlMessages>
+          <SafeAreaProvider onLayout={onLayoutRootView}>
+            <Navigation />
+            <StatusBar />
+          </SafeAreaProvider>
+        </IntlMessages>
+      </LocaleProvider>
     </ThemeProvider>
   );
 }
