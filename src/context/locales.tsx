@@ -7,22 +7,22 @@ import { getLocale } from '../utils/locales';
 export const STORAGE_LOCALE = 'MOVIO_LOCALE';
 
 interface LocaleContextInterface {
-  locale: LocaleLanguage;
-  setLocaleEntry: React.Dispatch<React.SetStateAction<LocaleLanguage>>;
-  localeEntry: LocaleLanguage;
+  locale: TLocaleLanguage;
+  setLocaleEntry: React.Dispatch<React.SetStateAction<TLocaleLanguage>>;
+  localeEntry: TLocaleLanguage;
 }
 
 export const LocaleContext = React.createContext<LocaleContextInterface>(null);
 
 export function LocaleProvider({ children }) {
   const [localeEntry, setLocaleEntry] = React.useState(
-    DEFAULT_LOCALE as LocaleLanguage
+    DEFAULT_LOCALE as TLocaleLanguage
   );
 
   React.useEffect(() => {
     AsyncStorage.getItem(STORAGE_LOCALE).then((value) => {
       if (value) {
-        setLocaleEntry(value as LocaleLanguage);
+        setLocaleEntry(value as TLocaleLanguage);
       }
     });
   }, []);
@@ -34,9 +34,9 @@ export function LocaleProvider({ children }) {
   }, [localeEntry]);
 
   const locale = React.useMemo(
-    () => getLocale(localeEntry as LocaleLanguage),
+    () => getLocale(localeEntry as TLocaleLanguage),
     [localeEntry]
-  ) as LocaleLanguage;
+  ) as TLocaleLanguage;
 
   return (
     <LocaleContext.Provider value={{ locale, setLocaleEntry, localeEntry }}>
