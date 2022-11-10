@@ -1,31 +1,26 @@
-import { useEffect, useState } from 'react';
-import { Box } from '../components/Box';
-import { Text } from '../components/Text';
-import { getDiscoverMovies } from '../services/api';
+import * as React from 'react';
+
+import { CoverLayout } from '../layouts/Cover';
+import { getDiscover } from '../services/api';
+import { BannerList } from '../components/BannerList';
+import { ContentThumb } from '../components/ContentThumb';
 
 export function DiscoverScreen() {
-  const [discover, setDiscover] = useState<IMovieData[]>([]);
-  const getDiscover = getDiscoverMovies();
+  const { data } = getDiscover({ type: 'all' });
+  const [bannerActiveSlide, setBannerActiveSlide] = React.useState(0);
 
-  useEffect(() => {
-    setTimeout(() => {
-      getDiscover
-        .then((data) => setDiscover(data.results))
-        .catch((err) => console.error(err));
-    }, 1000);
-  }, [getDiscover]);
+  const getActiveSlide = (activeSlide: number) => {
+    setBannerActiveSlide(activeSlide);
+  };
 
   return (
-    <Box flex={1} alignItems="center" justifyContent="center">
-      {discover ? (
-        discover.map((item) => (
-          <Box key={item.id}>
-            <Text>{item.title}</Text>
-          </Box>
-        ))
-      ) : (
-        <Text>Discover Screen</Text>
-      )}
-    </Box>
+    <CoverLayout imageUrl={data?.[bannerActiveSlide]?.backdrop_path}>
+      <BannerList
+        keyName="trendings"
+        data={data?.slice(0, 5)}
+        listItem={ContentThumb}
+        getActiveSlide={getActiveSlide}
+      />
+    </CoverLayout>
   );
 }
