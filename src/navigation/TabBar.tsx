@@ -45,11 +45,7 @@ export function BottomTabNavigator() {
           fontFamily: 'Poppins_600SemiBold'
         },
         headerBackground: () => (
-          <Box
-            backgroundColor={theme.colors.behind}
-            width="100%"
-            height="100%"
-          />
+          <Box backgroundColor="transparent" width="100%" height="100%" />
         ),
         tabBarBackground: isIos ? BottomBarBackground : undefined,
         tabBarStyle: isAndroid
@@ -72,6 +68,7 @@ export function BottomTabNavigator() {
         name="Discover"
         component={DiscoverScreen}
         options={() => ({
+          headerShown: false,
           title: intl.formatMessage({ id: 'tabs.discover' }),
           tabBarIcon: ({ color }) => <TabBarIcon name="film" color={color} />
         })}

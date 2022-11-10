@@ -14,6 +14,7 @@ import {
   typography,
   TypographyProps
 } from 'styled-system';
+
 import { getFontFamily } from '../utils/fonts';
 
 export type TextProps = ColorProps &

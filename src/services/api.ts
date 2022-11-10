@@ -1,34 +1,47 @@
-import axios, { AxiosRequestConfig } from 'axios';
 import Constants from 'expo-constants';
+
+import { useLocale } from '../context/locales';
+import { useRequest } from '../hooks/useRequest';
+
+interface Param {
+  name: string;
+  value: string | number;
+}
+type Params = Param[];
+
+interface ApiUrl {
+  query: string;
+  params?: Params;
+}
+
+interface GetApi {
+  type?: Type;
+  params?: Params;
+}
 
 const tmdb = 'https://api.themoviedb.org/3';
 const tmdbKey = Constants.manifest.extra.tmdbKey;
 
-const axiosClient = axios.create({ baseURL: tmdb });
+const useApiUrl = ({ query, params }: ApiUrl) => {
+  const { locale } = useLocale();
+  let paramsUrl = '';
 
-axiosClient.interceptors.request.use((config) => {
-  config.baseURL = tmdb;
-  config.method = 'GET';
-  config.params = config.params || {};
-  config.params['api_key'] = tmdbKey;
+  params &&
+    params.map((param) => {
+      paramsUrl += `&${param.name}=${encodeURIComponent(param.value)}`;
+    });
 
-  return config;
-});
-
-const httpRequest = <T>(req: AxiosRequestConfig): Promise<T> => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const request = await axiosClient(req);
-
-      resolve(request.data);
-    } catch (e: any) {
-      reject(e?.response?.data || { status_code: 500 });
-    }
-  });
+  return `${tmdb}${query}?api_key=${tmdbKey}&language=${locale}${paramsUrl}`;
 };
 
-export const getDiscoverMovies = () => {
-  return httpRequest<IResponse<IMovieData[]>>({
-    url: `/discover/movie`
+export const getDiscover = ({ type = 'all', params }: GetApi) => {
+  const { data, error } = useRequest<Trending>({
+    url: useApiUrl({ query: `/trending/${type}/day`, params })
   });
+
+  return {
+    data: data && data.results,
+    loading: !data,
+    error: error && error.message
+  };
 };

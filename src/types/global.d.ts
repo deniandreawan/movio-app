@@ -1,28 +1,37 @@
-import * as React from 'react';
+import { DefaultTheme } from 'styled-components/native';
 
 declare global {
-  type TLocaleLanguage = 'id' | 'en';
+  type Color = string | keyof DefaultTheme['colors'];
 
-  interface IResponse<T> {
-    page: number;
-    results: T;
-    total_results: number;
-    total_pages: number;
+  type LocaleLanguage = 'id' | 'en';
+
+  type ContentType = 'tv' | 'movie' | 'person' | string;
+
+  type Type = 'tv' | 'movie' | 'person' | 'all';
+
+  interface Trending {
+    results: ITrendingData[];
   }
 
-  type TMovieGenreIds = Array<number>;
-
-  interface IMovieData {
+  interface TrendingData {
+    adult: boolean;
+    backdrop_path: string;
     id: number;
+    title: string;
+    name?: string;
     original_language: string;
     original_title: string;
     overview: string;
     popularity: number;
     poster_path: string;
+    media_type: string;
+    genre_ids: Array<number>;
+    popularity: number;
     release_date: string;
-    title: string;
+    first_air_date?: string;
     video: boolean;
     vote_average: number;
     vote_count: number;
+    origin_country?: Array<string>;
   }
 }
